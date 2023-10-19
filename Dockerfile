@@ -1,2 +1,2 @@
-FROM alpine
-RUN apk add docker
+FROM ubuntu:18.04
+RUN apt install git maven docker.io
