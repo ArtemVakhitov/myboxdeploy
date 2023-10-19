@@ -4,6 +4,9 @@ pipeline {
             image 'docker.io/artemvakhitov/myboxdeploy'
         }
     }
+    tools {
+        maven "m3"
+    }
     stages {
         stage ('git') {
             steps {
