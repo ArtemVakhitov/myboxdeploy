@@ -2,10 +2,8 @@ pipeline {
     agent {
         docker {
             image 'docker.io/artemvakhitov/myboxdeploy'
+            args '-v /var/run/docker.sock:/var/run/docker.sock --privileged'
         }
-    }
-    tools {
-        maven "m3"
     }
     stages {
         stage ('git') {
@@ -20,16 +18,19 @@ pipeline {
             
         }
         stage ('build & push docker image') {
+            environment {
+                HOME = "${env.WORKSPACE}"
+            }
             steps {
-                sh 'docker build -t $docker_image_tag .'
-                sh 'docker push $docker_image_tag'
+                sh 'docker build -t artemvakhitov/myboxweb .'
+                sh 'docker push artemvakhitov/myboxweb'
             }
         }
         stage ('deploy on prod using docker') {
             steps {
-                sh '''ssh root@$prod << EOF
-	docker pull $docker_image_tag
-	docker run -p 80:80 $docker_image_tag
+                sh '''ssh 158.160.13.44 << EOF
+	docker pull artemvakhitov/myboxweb
+	docker run -p 80:80 artemvakhitov/myboxweb
 EOF'''
             }
         }
