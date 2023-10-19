@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image '$build_image'
+            image 'docker.io/artemvakhitov/myboxdeploy'
         }
     }
     stages {
