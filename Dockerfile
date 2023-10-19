@@ -1,2 +1,3 @@
 FROM ubuntu:18.04
-RUN apt install git maven docker.io
+RUN apt update
+RUN apt install git maven docker.io -y
