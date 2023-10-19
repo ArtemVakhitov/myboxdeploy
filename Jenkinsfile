@@ -30,8 +30,8 @@ pipeline {
             steps {
                 sh 'ssh-keyscan -H 158.160.13.44 >> ~/.ssh/known_hosts'
                 sh '''ssh root@158.160.13.44 << EOF
-	docker pull artemvakhitov/myboxweb
-	docker run -p 80:80 artemvakhitov/myboxweb
+docker pull artemvakhitov/myboxweb
+docker run -p 80:80 artemvakhitov/myboxweb
 EOF'''
             }
         }
