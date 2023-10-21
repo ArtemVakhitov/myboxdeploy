@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'docker.io/artemvakhitov/myboxdeploy:2'
-            args '-v /var/run/docker.sock:/var/run/docker.sock --privileged'
+            args '-v /var/run/docker.sock:/var/run/docker.sock --privileged -u root'
         }
     }
     stages {
@@ -23,16 +23,17 @@ pipeline {
             }
             steps {
                 sh 'docker build -t artemvakhitov/myboxweb .'
+                sh 'docker login -u artemvakhitov -p trekcodedrekilg3J'
                 sh 'docker push artemvakhitov/myboxweb'
             }
         }
         stage ('deploy on prod using docker') {
             steps {
-                sh 'ssh-keyscan -H 158.160.13.44 >> ~/.ssh/known_hosts'
-                sh '''ssh root@158.160.13.44 << EOF
+                sh '''ssh -T -o StrictHostKeyChecking=no root@158.160.13.44 <<EOF
 docker pull artemvakhitov/myboxweb
-docker run -d -p 80:80 artemvakhitov/myboxweb
-EOF'''
+docker run -d -p 80:8080 artemvakhitov/myboxweb
+EOF
+'''
             }
         }
     }
