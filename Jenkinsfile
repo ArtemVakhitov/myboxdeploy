@@ -29,7 +29,7 @@ pipeline {
         }
         stage ('deploy on prod using docker') {
             steps {
-                sh '''ssh -T -o StrictHostKeyChecking=no root@158.160.13.44 <<EOF
+                sh '''ssh -T -o StrictHostKeyChecking=no root@158.160.67.159 <<EOF
 docker pull artemvakhitov/myboxweb
 docker run -d -p 80:8080 artemvakhitov/myboxweb
 EOF
