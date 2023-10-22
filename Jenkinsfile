@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'docker.io/artemvakhitov/myboxdeploy:2'
+            image 'docker.io/artemvakhitov/myboxdeploy:4'
             args '-v /var/run/docker.sock:/var/run/docker.sock --privileged -u root'
         }
     }
@@ -23,7 +23,7 @@ pipeline {
             }
             steps {
                 sh 'docker build -t artemvakhitov/myboxweb .'
-                sh 'docker login -u artemvakhitov -p trekcodedrekilg3J'
+                sh 'cat /root/dockersecret | docker login -u artemvakhitov --password-stdin'
                 sh 'docker push artemvakhitov/myboxweb'
             }
         }
